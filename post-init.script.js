@@ -1,7 +1,19 @@
 #!/usr/bin/env node
-const { rm } = require("fs").promises;
-const { applyPlugins } = require("./template/plugins");
+const ora = require("ora");
 
-applyPlugins().then(async () => {
-  await rm("./plugins", { recursive: true });
-});
+const spinner = ora("Executing post init script ");
+
+new Promise((resolve) => {
+  spinner.start();
+  // do something
+  resolve();
+})
+  .then(() => {
+    spinner.succeed();
+  })
+  .catch(() => {
+    spinner.fail();
+    throw new Error(
+      "Something went wrong during the post init script execution"
+    );
+  });
